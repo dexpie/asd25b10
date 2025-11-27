@@ -43,34 +43,71 @@ public class GamePanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // 0. Background Gradient
-        GradientPaint gp = new GradientPaint(0, 0, GameStyle.PANEL_BG_START, 0, getHeight(), GameStyle.PANEL_BG_END);
+        // 0. Background Gradient (Modern Deep Blue)
+        GradientPaint gp = new GradientPaint(0, 0, GameStyle.BACKGROUND_START, 0, getHeight(), GameStyle.BACKGROUND_END);
         g2.setPaint(gp);
         g2.fillRect(0, 0, getWidth(), getHeight());
 
+        // 0.5 Board Container (Glassy Look)
+        int boardMargin = 20;
+        g2.setColor(GameStyle.BOARD_SHADOW);
+        g2.fillRoundRect(boardMargin + 5, boardMargin + 5, getWidth() - 2*boardMargin, getHeight() - 100, 30, 30); // Shadow
+        g2.setColor(new Color(255, 255, 255, 20));
+        g2.fillRoundRect(boardMargin, boardMargin, getWidth() - 2*boardMargin, getHeight() - 100, 30, 30); // Glass
+
         // 1. Draw Board Tiles
-        for (Tile tile : board.getTiles()) {
+        for (Tile tile : board.getTiles()) {    
             int row = (tile.id - 1) / 8;
             int col = (tile.id - 1) % 8;
             boolean isDark = (row % 2 == 0) ? (col % 2 != 0) : (col % 2 == 0);
             
-            // Tile Background
-            g2.setColor(isDark ? GameStyle.BG_BOARD_1 : GameStyle.BG_BOARD_2);
-            g2.fillRoundRect(tile.x, tile.y, tile.size, tile.size, 10, 10);
+            // Tile Shadow
+            g2.setColor(GameStyle.BOARD_SHADOW);
+            g2.fillRoundRect(tile.x + 2, tile.y + 4, tile.size, tile.size, 15, 15);
+
+            // Tile Body (Gradient)
+            Color baseColor = isDark ? GameStyle.TILE_1 : GameStyle.TILE_2;
+            GradientPaint tileGp = new GradientPaint(tile.x, tile.y, baseColor, tile.x + tile.size, tile.y + tile.size, baseColor.darker());
+            g2.setPaint(tileGp);
+            g2.fillRoundRect(tile.x, tile.y, tile.size, tile.size, 15, 15);
             
-            // Tile Border
-            g2.setColor(new Color(200, 200, 200));
-            g2.drawRoundRect(tile.x, tile.y, tile.size, tile.size, 10, 10);
+            // Tile Border (Subtle)
+            g2.setColor(new Color(255, 255, 255, 100));
+            g2.setStroke(new BasicStroke(1));
+            g2.drawRoundRect(tile.x, tile.y, tile.size, tile.size, 15, 15);
 
             // --- LOGIC STAR TILE (Kelipatan 5) ---
             if (tile.id % 5 == 0) {
-                drawStar(g2, tile.x + tile.size/2, tile.y + tile.size/2, 25);
+                // Glow effect
+                g2.setColor(GameStyle.STAR_GLOW);
+                g2.fillOval(tile.x + tile.size/2 - 15, tile.y + tile.size/2 - 15, 30, 30);
+                drawStar(g2, tile.x + tile.size/2, tile.y + tile.size/2, 20);
             }
 
-            // Tile Number
-            g2.setColor(new Color(100, 100, 100));
+            // --- LOGIC PRIME TILE ---
+            if (isPrime(tile.id)) {
+                g2.setColor(new Color(142, 68, 173, 100)); // Purple Glow
+                g2.fillRoundRect(tile.x + 5, tile.y + 5, tile.size - 10, tile.size - 10, 20, 20);
+                g2.setColor(new Color(142, 68, 173));
+                g2.setStroke(new BasicStroke(2));
+                g2.drawRoundRect(tile.x + 5, tile.y + 5, tile.size - 10, tile.size - 10, 20, 20);
+            }
+
+            // Tile Number (Top Left, Modern Font)
+            g2.setColor(GameStyle.TILE_TEXT);
             g2.setFont(GameStyle.FONT_TILE);
-            g2.drawString(String.valueOf(tile.id), tile.x + 8, tile.y + 20);
+            g2.drawString(String.valueOf(tile.id), tile.x + 6, tile.y + 18);
+
+            // --- SCORE TILE ---
+            if (tile.hasScore()) {
+                g2.setColor(GameStyle.SCORE_COLOR);
+                g2.fillOval(tile.x + tile.size - 25, tile.y + 5, 20, 20);
+                g2.setColor(Color.WHITE);
+                g2.setFont(GameStyle.FONT_SCORE);
+                String s = String.valueOf(tile.getScore());
+                FontMetrics fm = g2.getFontMetrics();
+                g2.drawString(s, tile.x + tile.size - 15 - fm.stringWidth(s)/2, tile.y + 19);
+            }
         }
 
         // 1.5 Draw Connections (Snakes & Ladders)
@@ -87,12 +124,9 @@ public class GamePanel extends JPanel {
                 int y2 = t2.y + t2.size/2;
 
                 if (start < end) {
-                    // LADDER
+                    // LADDER ONLY
                     drawLadder(g2, x1, y1, x2, y2);
-                } else {
-                    // SNAKE
-                    drawSnake(g2, x1, y1, x2, y2);
-                }
+                } 
             }
         }
 
@@ -107,6 +141,7 @@ public class GamePanel extends JPanel {
             int pos = entry.getKey();
             List<Player> occupants = entry.getValue();
             if (pos == 0) {
+                // Start Position (Bottom Left, outside board)
                 for (int i = 0; i < occupants.size(); i++) drawPlayer(g2, 40 + (i * 35), 620, occupants.get(i).color, 30);
             } else {
                 Tile t = board.getTile(pos);
@@ -114,92 +149,100 @@ public class GamePanel extends JPanel {
                 if (occupants.size() == 1) {
                     drawPlayer(g2, cx, cy, occupants.get(0).color, 30);
                 } else {
-                    int[][] offsets = {{-15, -15}, {15, 15}, {15, -15}, {-15, 15}};
+                    int[][] offsets = {{-10, -10}, {10, 10}, {10, -10}, {-10, 10}};
                     for (int i = 0; i < occupants.size(); i++) {
                         int ox = (i < 4) ? offsets[i][0] : 0; int oy = (i < 4) ? offsets[i][1] : 0;
-                        drawPlayer(g2, cx + ox, cy + oy, occupants.get(i).color, 20);
+                        drawPlayer(g2, cx + ox, cy + oy, occupants.get(i).color, 22);
                     }
                 }
             }
         }
-        g2.setColor(Color.WHITE); g2.setFont(new Font("Segoe UI", Font.BOLD, 16)); g2.drawString("START", 20, 640);
+        
+        // Start Label
+        g2.setColor(Color.WHITE); 
+        g2.setFont(GameStyle.FONT_TILE_BIG); 
+        g2.drawString("START", 20, 645);
 
         // 3. Overlays
         drawOverlays(g2);
 
-        // 4. Status Bar (Ambil nama dari HEAD Queue)
+        // 4. Status Bar (Floating HUD)
         if (!isDeterminingOrder && turnQueue != null && !turnQueue.isEmpty()) {
-            Player p = turnQueue.peek(); // Lihat siapa yg paling depan
+            Player p = turnQueue.peek(); 
             
-            // Status Bar Background
-            g2.setColor(new Color(0, 0, 0, 180));
-            g2.fillRoundRect(150, 5, 350, 35, 20, 20);
+            int hudW = 400;
+            int hudH = 50;
+            int hudX = (getWidth() - hudW) / 2;
+            int hudY = 10;
+
+            // HUD Shadow
+            g2.setColor(new Color(0,0,0,50));
+            g2.fillRoundRect(hudX + 4, hudY + 4, hudW, hudH, 40, 40);
+
+            // HUD Body (Glass)
+            g2.setColor(new Color(255, 255, 255, 220));
+            g2.fillRoundRect(hudX, hudY, hudW, hudH, 40, 40);
+            g2.setColor(new Color(255, 255, 255));
+            g2.setStroke(new BasicStroke(2));
+            g2.drawRoundRect(hudX, hudY, hudW, hudH, 40, 40);
             
-            // Player Color Indicator
+            // Player Indicator
             g2.setColor(p.color);
-            g2.fillOval(160, 10, 25, 25);
+            g2.fillOval(hudX + 15, hudY + 10, 30, 30);
             g2.setColor(Color.WHITE);
             g2.setStroke(new BasicStroke(2));
-            g2.drawOval(160, 10, 25, 25);
+            g2.drawOval(hudX + 15, hudY + 10, 30, 30);
 
-            g2.setColor(Color.WHITE); g2.setFont(GameStyle.FONT_INFO);
+            // Text
+            g2.setColor(new Color(40, 40, 60)); 
+            g2.setFont(GameStyle.FONT_INFO);
             FontMetrics fm = g2.getFontMetrics();
-
-            String fullStatus = p.name + "'s Turn | " + statusMsg;
-            g2.drawString(fullStatus, 325 - fm.stringWidth(fullStatus)/2, 28);
+            String fullStatus = p.name + " (Score: " + p.getScore() + ") | " + statusMsg;
+            g2.drawString(fullStatus, hudX + 60, hudY + 30);
         }
     }
 
     private void drawLadder(Graphics2D g2, int x1, int y1, int x2, int y2) {
-        g2.setColor(new Color(139, 69, 19)); // Wood color
-        g2.setStroke(new BasicStroke(5));
+        // Shadow
+        g2.setColor(new Color(0,0,0,30));
+        g2.setStroke(new BasicStroke(14));
+        g2.drawLine(x1+3, y1+3, x2+3, y2+3);
+
+        // Rails
+        g2.setColor(GameStyle.LADDER_RAIL);
+        g2.setStroke(new BasicStroke(12));
+        g2.drawLine(x1, y1, x2, y2);
         
-        double angle = Math.atan2(y2 - y1, x2 - x1);
-        double perpAngle = angle + Math.PI / 2;
-        int width = 10;
-        
-        int lx1 = (int)(x1 + width * Math.cos(perpAngle));
-        int ly1 = (int)(y1 + width * Math.sin(perpAngle));
-        int lx2 = (int)(x2 + width * Math.cos(perpAngle));
-        int ly2 = (int)(y2 + width * Math.sin(perpAngle));
-        
-        int rx1 = (int)(x1 - width * Math.cos(perpAngle));
-        int ry1 = (int)(y1 - width * Math.sin(perpAngle));
-        int rx2 = (int)(x2 - width * Math.cos(perpAngle));
-        int ry2 = (int)(y2 - width * Math.sin(perpAngle));
-        
-        g2.drawLine(lx1, ly1, lx2, ly2);
-        g2.drawLine(rx1, ry1, rx2, ry2);
-        
+        // Inner Highlight
+        g2.setColor(GameStyle.LADDER_RAIL.brighter());
+        g2.setStroke(new BasicStroke(4));
+        g2.drawLine(x1, y1, x2, y2);
+
         // Rungs
-        int steps = 10;
+        int steps = 8;
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+        double angle = Math.atan2(dy, dx);
+        double perpX = Math.cos(angle + Math.PI/2) * 8;
+        double perpY = Math.sin(angle + Math.PI/2) * 8;
+
         for (int i = 1; i < steps; i++) {
-            double ratio = (double)i / steps;
-            int mx1 = (int)(lx1 + (lx2 - lx1) * ratio);
-            int my1 = (int)(ly1 + (ly2 - ly1) * ratio);
-            int mx2 = (int)(rx1 + (rx2 - rx1) * ratio);
-            int my2 = (int)(ry1 + (ry2 - ry1) * ratio);
-            g2.setStroke(new BasicStroke(3));
-            g2.drawLine(mx1, my1, mx2, my2);
+            double t = (double)i / steps;
+            int cx = (int)(x1 + dx * t);
+            int cy = (int)(y1 + dy * t);
+            
+            g2.setColor(GameStyle.LADDER_RUNG);
+            g2.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            g2.drawLine((int)(cx - perpX), (int)(cy - perpY), (int)(cx + perpX), (int)(cy + perpY));
         }
     }
 
-    private void drawSnake(Graphics2D g2, int x1, int y1, int x2, int y2) {
-        g2.setColor(new Color(231, 76, 60));
-        g2.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        
-        QuadCurve2D q = new QuadCurve2D.Float();
-        // Control point for curve
-        int cx = (x1 + x2) / 2 + (Math.random() > 0.5 ? 30 : -30);
-        int cy = (y1 + y2) / 2;
-        q.setCurve(x1, y1, cx, cy, x2, y2);
-        g2.draw(q);
-        
-        // Head
-        g2.setColor(new Color(192, 57, 43));
-        g2.fillOval(x2 - 8, y2 - 8, 16, 16);
-        g2.setColor(Color.YELLOW);
-        g2.fillOval(x2 - 3, y2 - 3, 6, 6); // Eye
+    private boolean isPrime(int n) {
+        if (n <= 1) return false;
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) return false;
+        }
+        return true;
     }
 
     // Helper Gambar Bintang
@@ -221,8 +264,8 @@ public class GamePanel extends JPanel {
 
         g2.setColor(GameStyle.STAR_COLOR);
         g2.fill(star);
-        g2.setColor(Color.ORANGE);
-        g2.setStroke(new BasicStroke(1));
+        g2.setColor(Color.WHITE);
+        g2.setStroke(new BasicStroke(2));
         g2.draw(star);
     }
 
@@ -322,9 +365,9 @@ public class GamePanel extends JPanel {
         g2.setPaint(p);
         g2.fillOval(cx - r, cy - r, diameter, diameter);
         
-        // Outline
-        g2.setColor(c.darker()); 
-        g2.setStroke(new BasicStroke(1)); 
+        // Outline (White Glow)
+        g2.setColor(Color.WHITE); 
+        g2.setStroke(new BasicStroke(2)); 
         g2.drawOval(cx - r, cy - r, diameter, diameter);
     }
     

@@ -8,6 +8,7 @@ public class Player {
     int position = 0;
     boolean primePowerMode = false;
     Stack<Integer> moveHistory = new Stack<>();
+    int score = 0;
 
     public Player(int id, String name, Color color) {
         this.id = id;
@@ -15,4 +16,7 @@ public class Player {
         this.color = color;
         this.moveHistory.push(0);
     }
+
+    public void addScore(int s) { this.score += s; }
+    public int getScore() { return score; }
 }
