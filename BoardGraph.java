@@ -13,15 +13,18 @@ public class BoardGraph {
         connections = new HashMap<>();
         buildBoard(); 
         generateRandomConnections();
+        generateRandomScores();
     }
 
     private void generateRandomConnections() {
         while (connections.size() < 5) {
-            int start = (int)(Math.random() * 62) + 2; // 2..63
-            int end = (int)(Math.random() * 62) + 2;   // 2..63
-            if (start == end) continue;
+            int start = (int)(Math.random() * 60) + 2; // 2..61
+            int end = (int)(Math.random() * (63 - start)) + start + 1; // start+1 .. 63
+            
+            // Ensure Start < End (LADDER ONLY)
+            if (start >= end) continue; 
+
             if (connections.containsKey(start)) continue;
-            // Avoid immediate loops or chains for simplicity
             if (connections.containsKey(end)) continue; 
             
             connections.put(start, end);
@@ -70,5 +73,30 @@ public class BoardGraph {
             }
         }
         return neighbors;
+    }
+
+    private void generateRandomScores() {
+        // Assign random scores to 10 random tiles
+        for (int i = 0; i < 10; i++) {
+            int id = (int)(Math.random() * 62) + 2; // 2..63
+            Tile t = getTile(id);
+            if (t != null && !connections.containsKey(id)) { // Don't put score on ladder start
+                int score = ((int)(Math.random() * 5) + 1) * 10; // 10, 20, 30, 40, 50
+                t.setScore(score);
+            }
+        }
+    }
+    
+    public void resetConnections() {
+        connections.clear();
+        generateRandomConnections();
+        resetScores();
+    }
+    public void resetScores() {
+        for(Tile t : tiles) {
+            t.setScore(0);
+            t.isScoreCollected = false;
+        }
+        generateRandomScores();
     }
 }
