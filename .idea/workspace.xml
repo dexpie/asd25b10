@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d6158c6d-a9c0-4123-9610-54c2ab6d519f" name="Changes" comment="Menambah Snake Ladder sekaligus secret path dan star tile">
+      <change beforePath="$PROJECT_DIR$/GraphVisualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/GraphVisualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/BoardGraph.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/BoardGraph.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/GameLogic$PathNode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/GameLogic$PathNode.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/GameLogic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/GameLogic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/GamePanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/GameStyle.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/GameStyle.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/SnakeLadderGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/SnakeLadderGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/Tile.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
+    {
+      &quot;state&quot;: &quot;OPEN&quot;,
+      &quot;assignee&quot;: &quot;Dhana027&quot;,
+      &quot;author&quot;: &quot;dexpie&quot;
+    }
+  ],
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Dhana027&quot;,
+    &quot;author&quot;: &quot;dexpie&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/dexpie/asd25b10.git&quot;,
+    &quot;accountId&quot;: &quot;e630dddf-5790-4d05-84b7-eb5798efcaaa&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="35uA1NvgXYXLVEkh1QXdPF58mjX" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.GraphVisualizer.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SnakeLadderGame.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Zen/IntelliJDasPro/asd25b10&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d6158c6d-a9c0-4123-9610-54c2ab6d519f" name="Changes" comment="" />
+      <created>1763949366746</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1763949366746</updated>
+    </task>
+    <task id="LOCAL-00001" summary="nambah Snake Ladder">
+      <option name="closed" value="true" />
+      <created>1764150882912</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1764150882912</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Menambah Snake Ladder sekaligus secret path dan star tile">
+      <option name="closed" value="true" />
+      <created>1764203755896</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1764203755896</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="nambah Snake Ladder" />
+    <MESSAGE value="Menambah Snake Ladder sekaligus secret path dan star tile" />
+    <option name="LAST_COMMIT_MESSAGE" value="Menambah Snake Ladder sekaligus secret path dan star tile" />
+  </component>
+</project>
