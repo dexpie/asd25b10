@@ -5,16 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d6158c6d-a9c0-4123-9610-54c2ab6d519f" name="Changes" comment="Menambah Snake Ladder sekaligus secret path dan star tile">
-      <change beforePath="$PROJECT_DIR$/GraphVisualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/GraphVisualizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/BoardGraph.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/BoardGraph.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/GameLogic$PathNode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/GameLogic$PathNode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/GameLogic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/GameLogic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/GamePanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/GameStyle.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/GameStyle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/SnakeLadderGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/SnakeLadderGame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/asd25b10/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/asd25b10/Tile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BoardGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BoardGraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameStyle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameStyle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GraphVisualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GraphVisualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SnakeLadderGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SnakeLadderGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,17 +58,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.GraphVisualizer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.SnakeLadderGame.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Zen/IntelliJDasPro/asd25b10&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.GraphVisualizer.executor": "Run",
+    "Application.SnakeLadderGame.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Zen/IntelliJDasPro/asd25b10"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
