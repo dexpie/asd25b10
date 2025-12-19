@@ -1,37 +1,23 @@
-import javax.sound.sampled.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import javax.sound.sampled.*;
 
 public class SoundManager {
     private static Map<String, Clip> soundCache = new HashMap<>();
+    private static boolean isMuted = false;
+    private static float volume = 1.0f; // 0.0 (mute) - 1.0 (max)
 
-    // Sound Keys
+    
     public static final String DICE = "dice";
-    public static final String STEP = "step";
-    public static final String SNAKE = "snake";
     public static final String LADDER = "ladder";
     public static final String WIN = "win";
-    public static final String MAGIC = "magic"; // For Dijkstra/Prime
+    public static final String MAGIC = "magic"; 
     public static final String SLOT = "slot";
-    public static final String BGM = "bgm"; // Background Music
+    public static final String BGM = "bgm"; 
 
-    /**
-     * Initialize and load sounds.
-     * Place .wav files in the 'sounds' folder with these names:
-     * - dice.wav
-     * - step.wav
-     * - snake.wav
-     * - ladder.wav
-     * - win.wav
-     * - magic.wav
-     * - slot.wav
-     * - bgm.wav
-     */
     public static void init() {
         load(DICE, "dice");
-        load(STEP, "step");
-        load(SNAKE, "snake");
         load(LADDER, "ladder");
         load(WIN, "win");
         load(MAGIC, "magic");
@@ -71,23 +57,61 @@ public class SoundManager {
     }
 
     public static void play(String key) {
+        if (isMuted) return;
         Clip clip = soundCache.get(key);
         if (clip != null) {
             if (clip.isRunning()) clip.stop();
             clip.setFramePosition(0);
+            setClipVolume(clip, volume);
             clip.start();
         }
     }
 
     public static void playLoop(String key) {
+        if (isMuted) return;
         Clip clip = soundCache.get(key);
         if (clip != null) {
             if (clip.isRunning()) clip.stop();
             clip.setFramePosition(0);
+            setClipVolume(clip, volume);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.start();
         }
     }
+        public static void setVolume(float v) {
+            volume = Math.max(0f, Math.min(1f, v));
+            for (Clip clip : soundCache.values()) {
+                setClipVolume(clip, volume);
+            }
+        }
+
+        public static float getVolume() {
+            return volume;
+        }
+
+        private static void setClipVolume(Clip clip, float vol) {
+            try {
+                FloatControl gain = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                float min = gain.getMinimum();
+                float max = gain.getMaximum();
+                float dB = min + (max - min) * vol;
+                gain.setValue(dB);
+            } catch (Exception e) {
+                // ignore if not supported
+            }
+        }
+    
+    public static void setMuted(boolean muted) {
+        isMuted = muted;
+        
+        Clip bgm = soundCache.get(BGM);
+        if (bgm != null) {
+            if (muted) bgm.stop();
+            else bgm.loop(Clip.LOOP_CONTINUOUSLY);
+        }
+    }
+    
+    public static boolean isMuted() { return isMuted; }
 
     public static void stop(String key) {
         Clip clip = soundCache.get(key);
