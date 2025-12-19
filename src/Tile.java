@@ -2,7 +2,7 @@ import java.awt.Rectangle;
 
 public class Tile {
     int id, x, y, size;
-    int score = 0; // Score on this tile
+    int score = 0; 
     boolean isScoreCollected = false;
 
     public Tile(int id, int x, int y, int size) {
@@ -36,3 +36,4 @@ public class Tile {
         return 0;
     }
 }
+// asdfix
